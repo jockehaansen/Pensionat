@@ -198,6 +198,9 @@ public class RumServiceImp implements RumService {
                 break;
             }
         }
+
+
+
         System.out.println("Available room id's from getAvailableRoomsId: " + availableRooms);
         return availableRooms;
     }

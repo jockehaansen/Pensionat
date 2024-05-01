@@ -30,6 +30,46 @@ public class KundController {
         return "visakunder.html";
     }
 
+    @GetMapping("/showBokingarById/{id}")
+    public String showBookingDetails(@PathVariable Long id, Model model) {
+        List <BokningDto> allabokningar = bokningService.getAllBokningarbyId(id);
+        model.addAttribute("allabokningar", allabokningar);
+        model.addAttribute("id",id);
+        return "visabokningperkund.html";
+    }
+
+    @PostMapping("/registreraNyKund")
+    public String createKund(@ModelAttribute KundDto kundDto, Model model) {
+        kundService.getAllAvailableKundInfo(kundDto.getNamn(),kundDto.getTel(), kundDto.getEmail(),model);
+       if(kundService.isCustomerFieldsFilledAndCorrect(kundDto.getNamn(),kundDto.getTel(), kundDto.getEmail())){
+        String felmeddelande;
+       if(kundService.checkIfKundExistByEmailUtanAttSkapa(kundDto.getNamn(), kundDto.getEmail(), kundDto.getTel())){
+           felmeddelande = "Epost finns redan registrerad. Ny kund har inte skapats.";
+           model.addAttribute("felmeddelande", felmeddelande);
+
+           return getAllKunder(model);
+           //return "visakunder.html";
+           //return "redirect:/kunder";
+        }
+        else {
+            kundService.checkIfKundExistByEmail(kundDto.getNamn(), kundDto.getEmail(), kundDto.getTel());
+            felmeddelande = "Ny kund har skapats.";
+            model.addAttribute("felmeddelande", felmeddelande);
+
+           //felmeddelande
+        //Kund kund = kundService.kundDtoToKund(kundDto);
+        //kundService.addKund(kund);
+           return getAllKunder(model);
+           //return "visakunder.html";
+
+           //return "redirect:/kunder"; // Om du vill omdirigera till sidan för alla kunder efter att en ny kund har lagts till
+    }}
+        return getAllKunder(model);
+
+//       return "visakunder";
+   }
+
+
     /*@RequestMapping("")
         public List<KundDto> getAllKunder(){
         return kundService.getAllKunder();
@@ -41,22 +81,6 @@ public class KundController {
         return "bookingDetails.html";
     }*/
 
-    @GetMapping("/showBokingarById/{id}")
-    public String showBookingDetails(@PathVariable Long id, Model model) {
-        List <BokningDto> allabokningar = bokningService.getAllBokningarbyId(id);
-        model.addAttribute("allabokningar", allabokningar);
-        model.addAttribute("id",id);
-        return "visabokningperkund.html";
-    }
-
-    @PostMapping("/registreraNyKund")
-    public String createKund(@ModelAttribute KundDto kundDto, Model model) {
-        kundService.checkIfKundExistByEmail(kundDto.getNamn(), kundDto.getEmail(), kundDto.getTel());
-
-        //Kund kund = kundService.kundDtoToKund(kundDto);
-        //kundService.addKund(kund);
-        return "redirect:/kunder"; // Om du vill omdirigera till sidan för alla kunder efter att en ny kund har lagts till
-    }
 
 
     //Ändrade från @DeleteMapping till @RequestMapping då det inte gick att testa innan
