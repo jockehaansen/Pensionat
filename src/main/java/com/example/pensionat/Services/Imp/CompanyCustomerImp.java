@@ -8,10 +8,12 @@ import com.example.pensionat.Repositories.CustomerRepo;
 import com.example.pensionat.Services.CompanyCustomerService;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
+import org.hibernate.cache.spi.support.AbstractReadWriteAccess;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
-import java.util.Objects;
-import java.util.Optional;
+import java.text.Collator;
+import java.util.*;
 
 @Service
 @Transactional
@@ -21,7 +23,7 @@ public class CompanyCustomerImp implements CompanyCustomerService {
 
     @Override
     public CustomerDto customersToCustomerDto(customers c) {
-        return CustomerDto.builder().companyName(c.getCompanyName()).contactName(c.getContactName()).country(c.getCountry()).build();
+        return CustomerDto.builder().companyName(c.getCompanyName()).contactName(c.getContactName()).country(c.getCountry()).city(c.getCity()).build();
     }
 
     @Override
@@ -47,5 +49,58 @@ public class CompanyCustomerImp implements CompanyCustomerService {
         else {
             System.out.println( "Företagskunden " + customer.getCompanyName() + " fanns redan.");
         }
+    }
+
+    @Override
+    public List<CustomerDto> getAllContractCustomers() {
+        return cr.findAll().stream().map(this::customersToCustomerDto).toList();
+    }
+
+    @Override
+    public List<CustomerDto> sortContractCustomersByCompanyAscending() {
+        Sort sort = Sort.by(Sort.Direction.ASC, "companyName");
+        return cr.findAll(sort).stream().map(this::customersToCustomerDto).toList();
+    }
+
+    @Override
+    public List<CustomerDto> sortContractCustomersByCompanyDescending() {
+        Sort sort = Sort.by(Sort.Direction.DESC, "companyName");
+        return cr.findAll(sort).stream().map(this::customersToCustomerDto).toList();
+    }
+
+    @Override
+    public List<CustomerDto> sortContractCustomersByContactAscending() {
+        Sort sort = Sort.by(Sort.Direction.ASC, "contactName");
+        return cr.findAll(sort).stream().map(this::customersToCustomerDto).toList();
+    }
+
+    @Override
+    public List<CustomerDto> sortContractCustomersByContactDescending() {
+        Sort sort = Sort.by(Sort.Direction.DESC, "contactName");
+        return cr.findAll(sort).stream().map(this::customersToCustomerDto).toList();
+    }
+
+    @Override
+    public List<CustomerDto> sortContractCustomersByCityAscending() {
+        Sort sort = Sort.by(Sort.Direction.ASC, "city");
+        return cr.findAll(sort).stream().map(this::customersToCustomerDto).toList();
+    }
+
+    @Override
+    public List<CustomerDto> sortContractCustomersByCityDescending() {
+        Sort sort = Sort.by(Sort.Direction.DESC, "city");
+        return cr.findAll(sort).stream().map(this::customersToCustomerDto).toList();
+    }
+
+    @Override
+    public List<CustomerDto> sortContractCustomersByCountryAscending() {
+        Sort sort = Sort.by(Sort.Direction.ASC, "country");
+        return cr.findAll(sort).stream().map(this::customersToCustomerDto).toList();
+    }
+
+    @Override
+    public List<CustomerDto> sortContractCustomersByCountryDescending() {
+        Sort sort = Sort.by(Sort.Direction.DESC, "country");
+        return cr.findAll(sort).stream().map(this::customersToCustomerDto).toList();
     }
 }
