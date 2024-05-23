@@ -2,8 +2,10 @@ package com.example.pensionat.Services.Imp;
 
 import com.example.pensionat.Models.BlackListPerson;
 import com.example.pensionat.Services.BlackListDataProvider;
+import com.example.pensionat.configuration.IntegrationProperties;
 import com.fasterxml.jackson.databind.json.JsonMapper;
 import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.io.IOException;
@@ -14,6 +16,10 @@ import java.util.List;
 @Service
 @RequiredArgsConstructor
 public class BlackListDataProviderImp implements BlackListDataProvider {
+
+    @Autowired
+    IntegrationProperties properties;
+
     @Override
     public List<BlackListPerson> getAllBLKunder() throws IOException {
         JsonMapper jSonMapper = new JsonMapper();

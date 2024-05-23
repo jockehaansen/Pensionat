@@ -10,10 +10,12 @@ import com.example.pensionat.Security.Role;
 import com.example.pensionat.Security.RoleRepository;
 import com.example.pensionat.Security.User;
 import com.example.pensionat.Security.UserRepository;
+import com.example.pensionat.configuration.IntegrationProperties;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.WebApplicationType;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.context.annotation.Bean;
 
 import java.time.LocalDate;
@@ -21,6 +23,7 @@ import java.util.List;
 import java.util.Objects;
 
 @SpringBootApplication
+@EnableConfigurationProperties(IntegrationProperties.class)
 public class PensionatApplication {
     public static void main(String[] args) {
         if (args.length == 0) {
