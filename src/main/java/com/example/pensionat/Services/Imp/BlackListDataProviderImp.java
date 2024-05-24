@@ -6,6 +6,7 @@ import com.example.pensionat.configuration.IntegrationProperties;
 import com.fasterxml.jackson.databind.json.JsonMapper;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
 
 import java.io.IOException;
@@ -17,9 +18,9 @@ import java.util.List;
 @RequiredArgsConstructor
 public class BlackListDataProviderImp implements BlackListDataProvider {
 
+    @Qualifier("integrationProperties")
     @Autowired
     IntegrationProperties properties;
-
     @Override
     public List<BlackListPerson> getAllBLKunder() throws IOException {
         JsonMapper jSonMapper = new JsonMapper();
@@ -28,6 +29,6 @@ public class BlackListDataProviderImp implements BlackListDataProvider {
     }
 
     public URL GetBlackListPersonURL() throws MalformedURLException {
-        return new URL("https://javabl.systementor.se/api/stefan/blacklist");
+        return new URL(properties.getBlacklist().getUrl());
     }
 }

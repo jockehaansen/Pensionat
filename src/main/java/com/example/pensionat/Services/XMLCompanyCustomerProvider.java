@@ -2,9 +2,12 @@ package com.example.pensionat.Services;
 
 import com.example.pensionat.Models.allcustomers;
 import com.example.pensionat.Models.customers;
+import com.example.pensionat.configuration.IntegrationProperties;
 import com.fasterxml.jackson.dataformat.xml.JacksonXmlModule;
 import com.fasterxml.jackson.dataformat.xml.XmlMapper;
 import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Service;
 
@@ -13,7 +16,6 @@ import org.springframework.stereotype.Service;
 @Service
 public class XMLCompanyCustomerProvider  {
     private final CompanyCustomerService companyCustomerService;
-
 
     public void GetCompanyCustomersAsXMLAndSaveToDatabase() throws Exception {
         XmlURLProvider xmlURLProvider = new XmlURLProvider();

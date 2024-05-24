@@ -7,8 +7,7 @@ import org.springframework.stereotype.Service;
 
 @Service
 public class EmailService {
-    @Autowired
-    private JavaMailSender mailSender;
+   // private JavaMailSender mailSender;
     public void sendResetPasswordEmail(String to, String token) {
         String subject = "Reset Password";
         String text = "To reset your password, click the link below:\n" +
@@ -17,6 +16,6 @@ public class EmailService {
         message.setTo(to);
         message.setSubject(subject);
         message.setText(text);
-        mailSender.send(message);
+        //mailSender.send(message);
     }
 }
